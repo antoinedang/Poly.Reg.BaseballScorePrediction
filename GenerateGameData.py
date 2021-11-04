@@ -21,7 +21,6 @@ teams = dict({"ATL": "Atlanta Braves",
     "WAS": "Washington Nationals",
     "TOR": "Toronto Blue Jays",
     "LAA": "Los Angeles Angels",
-    "TBA": "Tampa Bay Rays",
     "BL2": "Baltimore Orioles",
     "BL3": "Baltimore Orioles",
     "BLN": "Baltimore Orioles",
@@ -39,7 +38,7 @@ teams = dict({"ATL": "Atlanta Braves",
     "CHN": "Chicago Cubs",
     "ARI": "Arizona Diamondbacks",
     "MIA": "Miami Marlins",
-    "FLO": "Miami Marlins",
+    "FLO": "Florida Marlins",
     "MLU": "Milwaukee Brewers",
     "ML3": "Milwaukee Brewers",
     "MLA": "Milwaukee Brewers",
@@ -71,10 +70,10 @@ for y in range(endYear-startYear+1):
         homeScore = int( cur[10].strip('"') )
         homeTeam = teams.get( cur[6].strip('"'), "" )
         visitingTeam = teams.get( cur[3].strip('"'), "" )
-        gamesPlayed = int(cur[8].strip('"')) + int(cur[5].strip('"'))
-        gamesPlayed *= 0.5
+        gamesPlayedHome = int(cur[8].strip('"'))
+        gamesPlayedVisitors = int(cur[5].strip('"'))
         if (visitingTeam != "" and homeTeam != ""):
-            game += date + "," + homeTeam + "," + visitingTeam + "," + str(homeScore-visitorScore) + "," + str(gamesPlayed)
+            game += date + "," + homeTeam + "," + visitingTeam + "," + str(homeScore-visitorScore) + "," + str(gamesPlayedHome) + "," + str(gamesPlayedVisitors)
             gameData += game + "\n"
     infile.close()
 

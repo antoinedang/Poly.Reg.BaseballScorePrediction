@@ -1,49 +1,65 @@
 import os, sys
 import numpy as np
 import pandas as pd
-
+import sklearn.linear_model as skm
 
 gamesPerSeason = 162
 numStats = 16
-polynomialDegree = 5
+polynomialDegree = 10
 training_set = "data/TRAINING_1990-2020.txt"
 test_set = "data/TEST_1990-2020.txt"
 valid_set = "data/VALIDATION_1990-2020.txt"
-learning_rate = 0.3
+learning_rate = 0.00001
 epsilon = 0.001
-lambda_value = 0.3
+lambda_value = 0.00001
+max_samples = 1000
 
 def getTrainingData(set):
     dataSet = open(set).readlines()
 
-    stats = np.zeros( (len(dataSet), 2*numStats*polynomialDegree) ) #first 16 arrays are polynimalized stats of home team, last 16 are visiting team
-    scores = np.zeros(len(dataSet))
+    stats = np.zeros( (len(dataSet[:max_samples]), 2*numStats*polynomialDegree) ) #first 16*5 stats are polynimalized stats of home team, last 16*5 are visiting team
+    scores = np.zeros(len(dataSet[:max_samples]))
+    mins, maxs = findMinMaxFromStatSheet(open("data/mlbStats2021.txt").readlines())
 
-    for i in range(len(dataSet)):
-        game = dataSet[i]
+    for i in range(len(dataSet[:max_samples])):
+        game = dataSet[:max_samples][i]
         year = int(game.split(",")[0][:4])
         homeTeam = game.split(",")[1]
         visitingTeam = game.split(",")[2]
-        scoreDifference = game.split(",")[3]
-        gameWorth = game.split(",")[4]
-        for teamStats in open("data/mlbStats" + str(year) + ".txt").readlines():
-                if teamStats.split(",")[0] == homeTeam:
-                    n = 0
-                    for s in range(numStats):
-                        for p in range(polynomialDegree):
-                            stats[i][n] = float(teamStats.split(",")[2:][s])**p
-                            n += 1
-                            #first half of stats[i] is home team stats and their polynomials
-                if teamStats.split(",")[0] == visitingTeam:
-                    n = numStats*polynomialDegree
-                    for s in range(numStats):
-                        for p in range(polynomialDegree):
-                            stats[i][n] = float(teamStats.split(",")[2:][s])**p
-                            n += 1
-                            #second half of stats[i] is visiting team stats and their polynomials
+        home = 0
+        visiting = 0
+        scoreDifference = int(game.split(",")[3])
+        gameWorthHome = int(game.split(",")[4])
+        gameWorthVisitors = int(game.split(",")[4])
+        for p in range(polynomialDegree):
+            stats[i][p] = (gameWorthHome/gamesPerSeason)**p
+            stats[i][polynomialDegree+p] = (gameWorthVisitors/gamesPerSeason)**p
+        statSheet = open("data/mlbStats" + str(year) + ".txt").readlines()
+        for j in range(len(statSheet)):
+            teamStats = statSheet[j]
+            if teamStats.split(",")[0] == homeTeam and home != 1:
+                home = 1
+                n = 2*polynomialDegree
+                for s in range(numStats-1): #removing one because the gameWorth stat has already been assigned
+                    stdStat = float(standardize(float(teamStats.split(",")[3:][s]), mins[s], maxs[s]))
+                    for p in range(polynomialDegree):
+                        stats[i][n] = stdStat**p
+                        n += 1
+                        #first half of stats[i] is home team stats and their polynomials
+            elif teamStats.split(",")[0] == visitingTeam and visiting != 1:
+                visiting = 1
+                n = (numStats+1)*polynomialDegree
+                for s in range(numStats-1):
+                    stdStat = float(standardize(float(teamStats.split(",")[3:][s]), mins[s], maxs[s]))
+                    for p in range(polynomialDegree):
+                        stats[i][n] = stdStat**p
+                        n += 1
+                        #second half of stats[i] is visiting team stats and their polynomials 
+        if visiting == 0: print(str(year) + "incomplete stats: " + visitingTeam)
+        if home == 0: print(str(year) + " incomplete stats: " + homeTeam)
         scores[i] = scoreDifference
         if (i%300 == 0):
-            print("%.2f" % float((i/len(dataSet)*100)) + "%")
+            print("%.2f" % float((i/len(dataSet[:max_samples])*100)) + "%")
 
     return stats, scores
 
@@ -53,13 +69,20 @@ def predictScore(w, s): # w is (2*numStats*polyDegree)x1 matrix, s is (2 * numSt
         predictedScore[i] = s[i].dot(w)
     return predictedScore
 
-weights = np.zeros(2*numStats*polynomialDegree)
-training_x, training_y = getTrainingData(training_set)
+def findMinMaxFromStatSheet(s):
+    maxs = [0]*(numStats-1)
+    mins = [100000]*(numStats-1)
 
-##STANDARDIZE STATS
+    for i in range(len(s[1:])):
+        line = s[1:][i]
+        for j in range(len(line.split(",")[3:])):
+            maxs[j] = max(float(line.split(",")[3:][j]), maxs[j])
+            mins[j] = min(float(line.split(",")[3:][j]), mins[j])
 
-print(training_x[0][:100])
-exit()
+    return mins, maxs
+
+def standardize(stat, min, max):
+    return float(stat-min)/float(max-min) #scaling each feature between 0 and 1
 
 # function that calculates the gradient
 def calculate_regularized_grad(X_poly, y, W, lambda_value):
@@ -86,7 +109,9 @@ def calculate_regularized_grad(X_poly, y, W, lambda_value):
 
 # function that caculates the change in W
 def calculate_dist(W_prev, W_cur):
-    return np.sqrt(np.sum((W_cur - W_prev)**2))
+    print(W_prev)
+    print(W_cur)
+    return np.sqrt(np.sum((W_cur - W_prev)**2), dtype=np.float64)
 
 # use the above 2 functions to perform regularized gradient descent
 def train_regularized_polynomial_regression(X_poly, y, W, learning_rate, epsilon, lambda_value, verbose=True):
@@ -121,15 +146,27 @@ def train_regularized_polynomial_regression(X_poly, y, W, learning_rate, epsilon
  
 ###################
 
+weights = np.zeros(2*numStats*polynomialDegree)
+training_x, training_y = getTrainingData(training_set)
+test_x, test_y = getTrainingData(test_set)
+
+reg = skm.LinearRegression().fit(training_x, training_y)
+print(reg.score(test_x, test_y))
+reg = skm.Ridge().fit(training_x, training_y)
+print(reg.score(test_x, test_y))
+
+
+
+
+
+exit()
+valid_x, valid_y = getTrainingData(valid_set)
 W = train_regularized_polynomial_regression(training_x, training_y, weights, learning_rate, epsilon, lambda_value)
 #calculate squared error on training set
 pred_scores = predictScore(training_x, W)
 mse = np.power((pred_scores - training_y), 2).mean()
 print('\nTraining Mean Squared Error: {}'.format(mse))
 
-
-test_x, test_y = getTrainingData(test_set)
-valid_x, valid_y = getTrainingData(valid_set)
 
 #calculate squared error on test set
 pred_scores = predictScore(test_x, W)
