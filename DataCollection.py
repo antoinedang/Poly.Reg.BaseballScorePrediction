@@ -107,6 +107,7 @@ def statsToCSVMultYears(years):
 		getStatsForYear(i)
 
 yearsList = []
-for i in range(22):
-	yearsList.append(2000 + i)
-#statsToCSVMultYears(yearsList)
+for i in range(32):
+	yearsList.append(1990 + i)
+
+statsToCSVMultYears(yearsList)

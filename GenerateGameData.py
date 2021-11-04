@@ -71,17 +71,20 @@ for y in range(endYear-startYear+1):
         homeScore = int( cur[10].strip('"') )
         homeTeam = teams.get( cur[6].strip('"'), "" )
         visitingTeam = teams.get( cur[3].strip('"'), "" )
+        gamesPlayed = int(cur[8].strip('"')) + int(cur[5].strip('"'))
+        gamesPlayed *= 0.5
         if (visitingTeam != "" and homeTeam != ""):
-            game += date + "," + homeTeam + "," + visitingTeam + "," + str(homeScore-visitorScore)
+            game += date + "," + homeTeam + "," + visitingTeam + "," + str(homeScore-visitorScore) + "," + str(gamesPlayed)
             gameData += game + "\n"
     infile.close()
 
 #open text file
 newFileName = os.getcwd() + "/data/ALLGAMES_" + str(startYear) + "-" + str(endYear) + ".txt"
+os.remove(newFileName)
 output = open(newFileName, "w")
  
 #write string to file
-output.write("date,homeTeam,visitingTeam,scoreDifference")
+output.write("date,homeTeam,visitingTeam,scoreDifference,gamesPlayedInSeason\n")
 output.write(gameData)
  
 #close file
@@ -95,6 +98,14 @@ random.shuffle(lines)
 trainingFileName = os.getcwd() + "/data/TRAINING_" + str(startYear) + "-" + str(endYear) + ".txt"
 testFileName = os.getcwd() + "/data/TEST_" + str(startYear) + "-" + str(endYear) + ".txt"
 validationFileName = os.getcwd() + "/data/VALIDATION_" + str(startYear) + "-" + str(endYear) + ".txt"
-open(trainingFileName, 'w').writelines(lines[:len(lines)//2])
-open(testFileName, 'w').writelines(lines[3*len(lines)//4:])
-open(validationFileName, 'w').writelines(lines[len(lines)//2:-len(lines)//4])
+
+try:
+    os.remove(trainingFileName)
+    os.remove(testFileName)
+    os.remove(validationFileName)
+except:
+    a=0
+    
+open(trainingFileName, 'w').writelines(lines[:len(lines)//2]) #write half of data to training
+open(testFileName, 'w').writelines(lines[3*len(lines)//4:]) #write a quarter of data to test 
+open(validationFileName, 'w').writelines(lines[len(lines)//2:-len(lines)//4]) #write a quarter of data to validation
