@@ -20,7 +20,6 @@ for i in range(len(dataSet)):
     visitingTeam = game.split(",")[2]
     scoreDifference = game.split(",")[3]
     gameWorth = game.split(",")[4]
-    if year <= 1999: continue
     for teamStats in open("data/mlbStats" + str(year) + ".txt").readlines():
             if teamStats.split(",")[0] == homeTeam:
                 for s in range(len(teamStats.split(",")[2:])):
@@ -44,7 +43,8 @@ def predictScore(w, s): # w is (2*numStats) x (polyDegree) matrix, s is (number 
 
     return prediction
 
-pred = predictScore(weights, stats)
+print(stats[i])
+print(scores[i])
 
 ###dont know how to do this part just yet
 exit()
