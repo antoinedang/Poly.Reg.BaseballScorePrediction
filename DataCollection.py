@@ -5,6 +5,9 @@ import os, sys
 from bs4 import BeautifulSoup
 import requests
 
+startYear = 1990
+endYear = 2021
+
 ## Helper funcitons
 def isUpper(l):
 	if l is None:
@@ -96,10 +99,7 @@ def getStatsForYear(year):
 	# Get HTML and put through beautiful soup
 	response = requests.get(urlYear)
 	soup = BeautifulSoup(response.text, "html.parser")
-	htmlSoup = open("htmlSoup.txt", mode="w")
-	htmlSoup.write(soup.prettify())
 	statsToCSV(soup, year)
-	htmlSoup.close()
 
 #getStatsForYear(2021)
 def statsToCSVMultYears(years):
@@ -107,6 +107,7 @@ def statsToCSVMultYears(years):
 		getStatsForYear(i)
 
 yearsList = []
-for i in range(32):
-	yearsList.append(1990 + i)
+for i in range(endYear-startYear+1):
+	print(startYear + i)
+	yearsList.append(startYear + i)
 statsToCSVMultYears(yearsList)
