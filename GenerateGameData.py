@@ -21,6 +21,7 @@ teams = dict({"ATL": "Atlanta Braves",
     "WAS": "Washington Nationals",
     "TOR": "Toronto Blue Jays",
     "LAA": "Los Angeles Angels",
+    "TBA": "Tampa Bay Rays",
     "BL2": "Baltimore Orioles",
     "BL3": "Baltimore Orioles",
     "BLN": "Baltimore Orioles",
@@ -38,7 +39,7 @@ teams = dict({"ATL": "Atlanta Braves",
     "CHN": "Chicago Cubs",
     "ARI": "Arizona Diamondbacks",
     "MIA": "Miami Marlins",
-    "FLO": "Florida Marlins",
+    "FLO": "Miami Marlins",
     "MLU": "Milwaukee Brewers",
     "ML3": "Milwaukee Brewers",
     "MLA": "Milwaukee Brewers",
@@ -70,10 +71,10 @@ for y in range(endYear-startYear+1):
         homeScore = int( cur[10].strip('"') )
         homeTeam = teams.get( cur[6].strip('"'), "" )
         visitingTeam = teams.get( cur[3].strip('"'), "" )
-        gamesPlayedHome = int(cur[8].strip('"'))
-        gamesPlayedVisitors = int(cur[5].strip('"'))
+        gamesPlayed = int(cur[8].strip('"')) + int(cur[5].strip('"'))
+        gamesPlayed *= 0.5
         if (visitingTeam != "" and homeTeam != ""):
-            game += date + "," + homeTeam + "," + visitingTeam + "," + str(homeScore-visitorScore) + "," + str(gamesPlayedHome) + "," + str(gamesPlayedVisitors)
+            game += date + "," + homeTeam + "," + visitingTeam + "," + str(homeScore-visitorScore) + "," + str(gamesPlayed)
             gameData += game + "\n"
     infile.close()
 
@@ -85,12 +86,13 @@ output = open(newFileName, "w")
 #write string to file
 output.write("date,homeTeam,visitingTeam,scoreDifference,gamesPlayedInSeason\n")
 output.write(gameData)
+ 
+#close file
 output.close()
 
 #shuffle lines of file randomly
-lines = open(newFileName).readlines()[1:]
+lines = open(newFileName).readlines()
 random.shuffle(lines)
-
 
 #split our shuffled data into training, test, and validations data sets
 trainingFileName = os.getcwd() + "/data/TRAINING_" + str(startYear) + "-" + str(endYear) + ".txt"
@@ -107,4 +109,3 @@ except:
 open(trainingFileName, 'w').writelines(lines[:len(lines)//2]) #write half of data to training
 open(testFileName, 'w').writelines(lines[3*len(lines)//4:]) #write a quarter of data to test 
 open(validationFileName, 'w').writelines(lines[len(lines)//2:-len(lines)//4]) #write a quarter of data to validation
-

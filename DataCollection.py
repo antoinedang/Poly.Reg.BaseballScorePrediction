@@ -5,12 +5,9 @@ import os, sys
 from bs4 import BeautifulSoup
 import requests
 
-<<<<<<< HEAD
-=======
 startYear = 1990
 endYear = 2021
 
->>>>>>> ffd32e075d0e75c9be1424800398ee7466946b05
 ## Helper funcitons
 def isUpper(l):
 	if l is None:
@@ -70,10 +67,6 @@ def statsToCSV(soup, year):
 		headerText = str(headerRow.text)
 		if isUpper(headerText):
 			headerList.append(headerText[:len(headerText)//2])
-			#teamStats.write(headerText[:len(headerText)//2])
-			#teamStats.write(",")
-		#sys.stdout.write(headerText)
-		#sys.stdout.write(",")
 	teamStats.write(",".join(headerList))
 	teamStats.write("\n")
 
@@ -102,14 +95,7 @@ def getStatsForYear(year):
 	# Get HTML and put through beautiful soup
 	response = requests.get(urlYear)
 	soup = BeautifulSoup(response.text, "html.parser")
-<<<<<<< HEAD
-	htmlSoup = open("htmlSoup.txt", mode="w")
-	htmlSoup.write(soup.prettify())
 	statsToCSV(soup, year)
-	htmlSoup.close()
-=======
-	statsToCSV(soup, year)
->>>>>>> ffd32e075d0e75c9be1424800398ee7466946b05
 
 #getStatsForYear(2021)
 def statsToCSVMultYears(years):
@@ -117,12 +103,7 @@ def statsToCSVMultYears(years):
 		getStatsForYear(i)
 
 yearsList = []
-<<<<<<< HEAD
-for i in range(32):
-	yearsList.append(1990 + i)
-=======
 for i in range(endYear-startYear+1):
 	print(startYear + i)
 	yearsList.append(startYear + i)
->>>>>>> ffd32e075d0e75c9be1424800398ee7466946b05
 statsToCSVMultYears(yearsList)
