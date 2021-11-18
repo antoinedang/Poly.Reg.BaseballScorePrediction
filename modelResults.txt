@@ -1,0 +1,343 @@
+-------------- 11/18/2021, 04:29:34 --------------
+	Linear
+		Mean Squared Error: 2.3035302093063623
+		Accuracy: 58.186330999024904%
+		Parameters: {'copy_X': True, 'fit_intercept': True, 'n_jobs': -1, 'normalize': 'deprecated', 'positive': False}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:29:36 --------------
+-------------- 11/18/2021, 04:29:36 --------------
+	Ridge
+		Mean Squared Error: 2.3032031803676936
+		Accuracy: 58.186330999024904%
+		Parameters: {'alpha': 1.0, 'copy_X': True, 'fit_intercept': True, 'max_iter': None, 'normalize': 'deprecated', 'positive': False, 'random_state': None, 'solver': 'auto', 'tol': 0.0001}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:29:36 --------------
+-------------- 11/18/2021, 04:29:36 --------------
+	Lasso
+		Mean Squared Error: 1.0096675944215772
+		Accuracy: 56.87439056821204%
+		Parameters: {'alpha': 1.0, 'copy_X': True, 'fit_intercept': True, 'max_iter': 1000, 'normalize': 'deprecated', 'positive': False, 'precompute': False, 'random_state': None, 'selection': 'cyclic', 'tol': 0.0001, 'warm_start': False}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:29:37 --------------
+-------------- 11/18/2021, 04:29:37 --------------
+	Partial Least Squares
+		Mean Squared Error: 2.303530209306361
+		Accuracy: 58.186330999024904%
+		Parameters: {'copy': True, 'max_iter': 500, 'n_components': 2, 'scale': True, 'tol': 1e-06}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:29:37 --------------
+-------------- 11/18/2021, 04:29:37 --------------
+	Support Vector Machines
+		Mean Squared Error: 0.9864937460253522
+		Accuracy: 57.99131282687705%
+		Parameters: {'C': 1.0, 'cache_size': 200, 'coef0': 0.0, 'degree': 3, 'epsilon': 0.1, 'gamma': 'scale', 'kernel': 'rbf', 'max_iter': -1, 'shrinking': True, 'tol': 0.001, 'verbose': True}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:38:44 --------------
+-------------- 11/18/2021, 04:38:44 --------------
+	Random Forest
+		Mean Squared Error: 0.9855116332801895
+		Accuracy: 55.899299707472736%
+		Parameters: {'bootstrap': True, 'ccp_alpha': 0.0, 'criterion': 'squared_error', 'max_depth': None, 'max_features': 'auto', 'max_leaf_nodes': None, 'max_samples': None, 'min_impurity_decrease': 0.0, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 100, 'n_jobs': -1, 'oob_score': False, 'random_state': None, 'verbose': True, 'warm_start': False}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:50:27 --------------
+-------------- 11/18/2021, 04:50:36 --------------
+	Linear
+		Mean Squared Error: 1.165811973098017
+		Accuracy: 57.56581863309991%
+		Parameters: {'copy_X': True, 'fit_intercept': True, 'n_jobs': -1, 'normalize': 'deprecated', 'positive': False}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:50:36 --------------
+-------------- 11/18/2021, 04:50:36 --------------
+	Partial Least Squares
+		Mean Squared Error: 1.1658119736241277
+		Accuracy: 57.56581863309991%
+		Parameters: {'copy': True, 'max_iter': 10000, 'n_components': 50, 'scale': False, 'tol': 1e-06}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:50:37 --------------
+-------------- 11/18/2021, 04:50:37 --------------
+	Ridge
+		Mean Squared Error: 1.1658115893196321
+		Accuracy: 57.56581863309991%
+		Parameters: {'alpha': 0.5, 'copy_X': True, 'fit_intercept': True, 'max_iter': None, 'normalize': 'deprecated', 'positive': False, 'random_state': None, 'solver': 'auto', 'tol': 1e-05}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:50:37 --------------
+-------------- 11/18/2021, 04:50:37 --------------
+	Lasso
+		Mean Squared Error: 1.0042410813881464
+		Accuracy: 47.25644889637444%
+		Parameters: {'alpha': 0.5, 'copy_X': True, 'fit_intercept': False, 'max_iter': 10000, 'normalize': 'deprecated', 'positive': False, 'precompute': False, 'random_state': None, 'selection': 'random', 'tol': 0.0001, 'warm_start': True}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:50:37 --------------
+-------------- 11/18/2021, 04:50:37 --------------
+	Lasso
+		Mean Squared Error: 1.0042410813881464
+		Accuracy: 47.25644889637444%
+		Parameters: {'alpha': 0.5, 'copy_X': True, 'fit_intercept': False, 'max_iter': 10000, 'normalize': 'deprecated', 'positive': False, 'precompute': False, 'random_state': None, 'selection': 'random', 'tol': 0.0001, 'warm_start': False}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:50:37 --------------
+-------------- 11/18/2021, 04:50:37 --------------
+	Ridge
+		Mean Squared Error: 1.1658112055424596
+		Accuracy: 57.56581863309991%
+		Parameters: {'alpha': 1.0, 'copy_X': True, 'fit_intercept': True, 'max_iter': None, 'normalize': 'deprecated', 'positive': False, 'random_state': None, 'solver': 'auto', 'tol': 1e-05}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:50:38 --------------
+-------------- 11/18/2021, 04:50:38 --------------
+	Lasso
+		Mean Squared Error: 1.0096675944215772
+		Accuracy: 0.0%
+		Parameters: {'alpha': 1.0, 'copy_X': True, 'fit_intercept': False, 'max_iter': 10000, 'normalize': 'deprecated', 'positive': False, 'precompute': False, 'random_state': None, 'selection': 'random', 'tol': 0.0001, 'warm_start': True}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:50:38 --------------
+-------------- 11/18/2021, 04:50:38 --------------
+	Lasso
+		Mean Squared Error: 1.0096675944215772
+		Accuracy: 0.0%
+		Parameters: {'alpha': 1.0, 'copy_X': True, 'fit_intercept': False, 'max_iter': 10000, 'normalize': 'deprecated', 'positive': False, 'precompute': False, 'random_state': None, 'selection': 'random', 'tol': 0.0001, 'warm_start': False}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:50:38 --------------
+-------------- 11/18/2021, 04:50:38 --------------
+	Ridge
+		Mean Squared Error: 1.1658108217664893
+		Accuracy: 57.56581863309991%
+		Parameters: {'alpha': 1.5, 'copy_X': True, 'fit_intercept': True, 'max_iter': None, 'normalize': 'deprecated', 'positive': False, 'random_state': None, 'solver': 'auto', 'tol': 1e-05}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:50:38 --------------
+-------------- 11/18/2021, 04:50:38 --------------
+	Lasso
+		Mean Squared Error: 1.0096675944215772
+		Accuracy: 0.0%
+		Parameters: {'alpha': 1.5, 'copy_X': True, 'fit_intercept': False, 'max_iter': 10000, 'normalize': 'deprecated', 'positive': False, 'precompute': False, 'random_state': None, 'selection': 'random', 'tol': 0.0001, 'warm_start': True}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:50:38 --------------
+-------------- 11/18/2021, 04:50:38 --------------
+	Lasso
+		Mean Squared Error: 1.0096675944215772
+		Accuracy: 0.0%
+		Parameters: {'alpha': 1.5, 'copy_X': True, 'fit_intercept': False, 'max_iter': 10000, 'normalize': 'deprecated', 'positive': False, 'precompute': False, 'random_state': None, 'selection': 'random', 'tol': 0.0001, 'warm_start': False}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:50:38 --------------
+-------------- 11/18/2021, 04:50:38 --------------
+	Ridge
+		Mean Squared Error: 1.1658104379917318
+		Accuracy: 57.56581863309991%
+		Parameters: {'alpha': 2.0, 'copy_X': True, 'fit_intercept': True, 'max_iter': None, 'normalize': 'deprecated', 'positive': False, 'random_state': None, 'solver': 'auto', 'tol': 1e-05}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:50:39 --------------
+-------------- 11/18/2021, 04:50:39 --------------
+	Lasso
+		Mean Squared Error: 1.0096675944215772
+		Accuracy: 0.0%
+		Parameters: {'alpha': 2.0, 'copy_X': True, 'fit_intercept': False, 'max_iter': 10000, 'normalize': 'deprecated', 'positive': False, 'precompute': False, 'random_state': None, 'selection': 'random', 'tol': 0.0001, 'warm_start': True}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:50:39 --------------
+-------------- 11/18/2021, 04:50:39 --------------
+	Lasso
+		Mean Squared Error: 1.0096675944215772
+		Accuracy: 0.0%
+		Parameters: {'alpha': 2.0, 'copy_X': True, 'fit_intercept': False, 'max_iter': 10000, 'normalize': 'deprecated', 'positive': False, 'precompute': False, 'random_state': None, 'selection': 'random', 'tol': 0.0001, 'warm_start': False}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:50:39 --------------
+-------------- 11/18/2021, 04:50:39 --------------
+	Ridge
+		Mean Squared Error: 1.1658081353685634
+		Accuracy: 57.56581863309991%
+		Parameters: {'alpha': 5.0, 'copy_X': True, 'fit_intercept': True, 'max_iter': None, 'normalize': 'deprecated', 'positive': False, 'random_state': None, 'solver': 'auto', 'tol': 1e-05}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:50:39 --------------
+-------------- 11/18/2021, 04:50:39 --------------
+	Lasso
+		Mean Squared Error: 1.0096675944215772
+		Accuracy: 0.0%
+		Parameters: {'alpha': 5.0, 'copy_X': True, 'fit_intercept': False, 'max_iter': 10000, 'normalize': 'deprecated', 'positive': False, 'precompute': False, 'random_state': None, 'selection': 'random', 'tol': 0.0001, 'warm_start': True}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:50:39 --------------
+-------------- 11/18/2021, 04:50:39 --------------
+	Lasso
+		Mean Squared Error: 1.0096675944215772
+		Accuracy: 0.0%
+		Parameters: {'alpha': 5.0, 'copy_X': True, 'fit_intercept': False, 'max_iter': 10000, 'normalize': 'deprecated', 'positive': False, 'precompute': False, 'random_state': None, 'selection': 'random', 'tol': 0.0001, 'warm_start': False}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:50:39 --------------
+-------------- 11/18/2021, 04:50:39 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.0681757754857346
+		Accuracy: 53.28428330821736%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 10, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 10, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:51:00 --------------
+-------------- 11/18/2021, 04:51:00 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.0681757754857346
+		Accuracy: 53.28428330821736%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 20, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 10, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:51:20 --------------
+-------------- 11/18/2021, 04:51:20 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.0681757754857346
+		Accuracy: 53.28428330821736%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 30, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 10, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:51:37 --------------
+-------------- 11/18/2021, 04:51:37 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.0681757754857346
+		Accuracy: 53.28428330821736%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 40, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 10, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:51:54 --------------
+-------------- 11/18/2021, 04:51:54 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.0681757754857346
+		Accuracy: 53.28428330821736%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 50, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 10, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:52:10 --------------
+-------------- 11/18/2021, 04:52:10 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.0681757754857346
+		Accuracy: 53.28428330821736%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 100, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 10, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:52:29 --------------
+-------------- 11/18/2021, 04:52:29 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.0681757754857346
+		Accuracy: 53.28428330821736%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 200, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 10, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:52:46 --------------
+-------------- 11/18/2021, 04:52:46 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.0226578035600373
+		Accuracy: 53.14245191029164%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 10, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 20, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:53:01 --------------
+-------------- 11/18/2021, 04:53:01 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.0226578035600373
+		Accuracy: 53.14245191029164%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 20, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 20, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:53:17 --------------
+-------------- 11/18/2021, 04:53:17 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.0226578035600373
+		Accuracy: 53.14245191029164%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 30, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 20, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:53:32 --------------
+-------------- 11/18/2021, 04:53:32 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.0226578035600373
+		Accuracy: 53.14245191029164%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 40, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 20, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:53:45 --------------
+-------------- 11/18/2021, 04:53:45 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.0226578035600373
+		Accuracy: 53.14245191029164%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 50, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 20, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:54:00 --------------
+-------------- 11/18/2021, 04:54:00 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.0226578035600373
+		Accuracy: 53.14245191029164%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 100, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 20, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:54:16 --------------
+-------------- 11/18/2021, 04:54:16 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.0226578035600373
+		Accuracy: 53.14245191029164%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 200, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 20, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:54:40 --------------
+-------------- 11/18/2021, 04:54:40 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.004651606079234
+		Accuracy: 53.22223207162485%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 10, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 30, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:55:03 --------------
+-------------- 11/18/2021, 04:55:03 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.004651606079234
+		Accuracy: 53.22223207162485%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 20, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 30, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:55:22 --------------
+-------------- 11/18/2021, 04:55:22 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.004651606079234
+		Accuracy: 53.22223207162485%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 30, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 30, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:55:57 --------------
+-------------- 11/18/2021, 04:55:57 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.004651606079234
+		Accuracy: 53.22223207162485%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 40, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 30, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:56:18 --------------
+-------------- 11/18/2021, 04:56:18 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.004651606079234
+		Accuracy: 53.22223207162485%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 50, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 30, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:56:35 --------------
+-------------- 11/18/2021, 04:56:35 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.004651606079234
+		Accuracy: 53.22223207162485%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 100, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 30, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:56:51 --------------
+-------------- 11/18/2021, 04:56:51 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 1.004651606079234
+		Accuracy: 53.22223207162485%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 200, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 30, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:57:06 --------------
+-------------- 11/18/2021, 04:57:06 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 0.9970571019134635
+		Accuracy: 53.40838578140236%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 10, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 40, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:57:22 --------------
+-------------- 11/18/2021, 04:57:22 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 0.9970571019134635
+		Accuracy: 53.40838578140236%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 20, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 40, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:57:41 --------------
+-------------- 11/18/2021, 04:57:41 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 0.9970571019134635
+		Accuracy: 53.40838578140236%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 30, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 40, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:57:58 --------------
+-------------- 11/18/2021, 04:57:58 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 0.9970571019134635
+		Accuracy: 53.40838578140236%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 40, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 40, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:58:13 --------------
+-------------- 11/18/2021, 04:58:13 --------------
+	K-Nearest Neighbours
+		Mean Squared Error: 0.9970571019134635
+		Accuracy: 53.40838578140236%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 50, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 40, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+-------------- 11/18/2021, 04:58:30 --------------

@@ -1,0 +1,6 @@
+Highest Accuracy:
+	Partial Least Squares
+		Mean Squared Error: 2.303530209306361
+		Accuracy: 58.186330999024904%
+		Parameters: {'copy': True, 'max_iter': 500, 'n_components': 2, 'scale': True, 'tol': 1e-06}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
