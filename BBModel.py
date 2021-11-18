@@ -131,12 +131,21 @@ def start():
         training_x = pca.fit_transform(training_x)
         test_x = pca.transform(test_x)
 
+    
+    log = open("modelResults.txt", 'a')
+    output = ""
+    output += "-------------- | --------------\n"
+    output += "----- " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + " -----\n"
+    output += "-------------- | --------------\n"
+    log.write(output)
+    log.close()
+
     #MODELS
     #custom parameters
     hyperparameters = [ [0], [0], [0], [0] ]
     hyperparameters[0] = [ 50, 75, 100, 200, 500, 750, 1000, 1500, 2500 ] #num_components for pca
 
-    hyperparameters[1] = [ 0.5, 1.0, 1.5, 2.0, 5.0 ] #for alpha
+    hyperparameters[1] = [ 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 ] #for alpha
     hyperparameters[2] = [ True, False ] #for warm start
     hyperparameters[3] = [ 10, 20, 30, 40, 50, 100, 200 ] #for leaf size and n_neighbours and batch size
 
@@ -187,7 +196,6 @@ def start():
 
 
 def runDefaultModels(trainx, trainy, testx, testy):
-    
     startTime = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
     model = skm.LinearRegression(n_jobs=-1)
     model.fit(trainx, trainy)
