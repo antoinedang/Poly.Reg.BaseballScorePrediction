@@ -41,7 +41,9 @@ def saveScore(accuracy, mse, name, parameters, startTime, pred, true, n_comp):
     output += "\t\t" + "Accuracy: " + str(accuracy) + "%\n"
     output += "\t\t" + "Parameters: " + str(parameters)
     output += "\n\t\t" + "Predicted: " + str(pred[:10])
+    output += "\n\t\t" + "Mean of predicted: " + str(np.mean(pred))
     output += "\n\t\t" + "True: " + str(true[:10])
+    output += "\n\t\t" + "Mean of true: " + str(np.mean(true))
     output += "\n\t\t" + "Hyperparameters: num_components: " + str(n_comp) + ", max_samples: " + str(max_samples) + ", startYear: " + str(startYear) + ", endYear: " + str(endYear)
     output += "\n-------------- " + time + " --------------\n"
 
@@ -71,10 +73,10 @@ def updateHighScore(accuracy, mse, name, parameters, pred, true, n_comp):
         output += "\t\t" + "Mean Squared Error: " + str(mse) + "\n"
         output += "\t\t" + "Accuracy: " + str(accuracy) + "%\n"
         output += "\t\t" + "Parameters: " + str(parameters)
-        output += "\t\t" + "Predicted: " + str(pred[:10])
-        output += "\t\t" + "Mean of predicted: " + str(np.mean(pred))
-        output += "\t\t" + "True: " + str(true[:10])
-        output += "\t\t" + "Mean of true: " + str(np.mean(true))
+        output += "\n\t\t" + "Predicted: " + str(pred[:10])
+        output += "\n\t\t" + "Mean of predicted: " + str(np.mean(pred))
+        output += "\n\t\t" + "True: " + str(true[:10])
+        output += "\n\t\t" + "Mean of true: " + str(np.mean(true))
         output += "\n\t\t" + "Hyperparameters: num_components: " + str(n_comp) + ", max_samples: " + str(max_samples) + ", startYear: " + str(startYear) + ", endYear: " + str(endYear)
 
         bestAccuracy = open("bestAccuracy.txt", 'w')
@@ -88,8 +90,10 @@ def updateHighScore(accuracy, mse, name, parameters, pred, true, n_comp):
         output += "\t\t" + "Mean Squared Error: " + str(mse) + "\n"
         output += "\t\t" + "Accuracy: " + str(accuracy) + "%\n"
         output += "\t\t" + "Parameters: " + str(parameters)
-        output += "\t\t" + "Predicted: " + str(pred[:10])
-        output += "\t\t" + "True: " + str(true[:10])
+        output += "\n\t\t" + "Predicted: " + str(pred[:10])
+        output += "\n\t\t" + "Mean of predicted: " + str(np.mean(pred))
+        output += "\n\t\t" + "True: " + str(true[:10])
+        output += "\n\t\t" + "Mean of true: " + str(np.mean(true))
         output += "\n\t\t" + "Hyperparameters: num_components: " + str(num_components) + ", max_samples: " + str(max_samples) + ", startYear: " + str(startYear) + ", endYear: " + str(endYear)
 
         bestMSE = open("bestMSE.txt", 'w')
