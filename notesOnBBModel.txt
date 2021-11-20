@@ -1,0 +1,33 @@
+Look into lowering alpha w respect to the number of samples 
+    if samples gets higher , increse n st alpha=1/n
+GOOD MODEL
+
+Lowest Results:
+	Linear
+		Mean Squared Error: [1.01100653]
+		Accuracy: 58.28384008509884%
+		Parameters: {'copy_X': True, 'fit_intercept': True, 'n_jobs': -1, 'normalize': 'deprecated', 'positive': False}
+		Predicted: [[ 0.67443592]
+ [ 0.23681186]
+ [-0.00073237]
+ [ 0.10789677]
+ [-0.26479104]
+ [-0.21684822]
+ [-0.05332988]
+ [-0.26137191]
+ [ 0.06366279]
+ [ 0.2068933 ]]
+		Mean of predicted: -0.002029639977841767
+		True: [[ 0.47865653]
+ [-0.80295947]
+ [ 0.22233333]
+ [-0.03398987]
+ [-0.03398987]
+ [-0.03398987]
+ [-1.31560587]
+ [-0.29031307]
+ [ 1.24762613]
+ [-2.08457547]]
+		Mean of true: -0.008814254780432431
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
+

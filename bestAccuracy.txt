@@ -1,0 +1,28 @@
+Highest Accuracy:
+	Linear
+		Mean Squared Error: [2.07245892]
+		Accuracy: 58.44340040776527%
+		Parameters: {'copy_X': True, 'fit_intercept': True, 'n_jobs': -1, 'normalize': 'deprecated', 'positive': False}
+		Predicted: [[ 0.7336676 ]
+ [ 0.15923837]
+ [ 0.01169047]
+ [ 0.06970172]
+ [-0.26035446]
+ [-0.18502309]
+ [-0.03497471]
+ [-0.22320859]
+ [ 0.0221076 ]
+ [ 0.24684926]]
+		Mean of predicted: -0.012061566656342398
+		True: [[ 0.47865653]
+ [-0.80295947]
+ [ 0.22233333]
+ [-0.03398987]
+ [-0.03398987]
+ [-0.03398987]
+ [-1.31560587]
+ [-0.29031307]
+ [ 1.24762613]
+ [-2.08457547]]
+		Mean of true: -0.008814254780432431
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020
