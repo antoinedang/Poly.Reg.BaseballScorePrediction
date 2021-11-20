@@ -1,0 +1,6 @@
+Lowest Mean Squared Error:
+	K-Nearest Neighbours
+		Mean Squared Error: 0.9813318334320787
+		Accuracy: 54.50757911532666%
+		Parameters: {'algorithm': 'auto', 'leaf_size': 10, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 200, 'p': 2, 'weights': 'distance'}
+		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020

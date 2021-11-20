@@ -5,8 +5,8 @@ import os, sys
 from bs4 import BeautifulSoup
 import requests
 
-startYear = 1990
-endYear = 2021
+startYear = 2011
+endYear = 2020
 
 ## Helper funcitons
 def isUpper(l):
@@ -17,9 +17,15 @@ def isUpper(l):
 def uniqueList(list1):
 	output = []
 	for x in list1:
-		if x not in output:
+		if (x not in output) and (containsNum(x)):
 			output.append(x)
 	return output
+
+def containsNum(string):
+	for i in string: 
+		if i in "0123456789|/":
+			return False
+	return True
 
 def strSlicer(string):
 	firstChar = string[0]
@@ -50,16 +56,7 @@ def getTeamNames(soup):
 		teamNames.append(newText)
 	return teamNames
 
-def statsToCSV(soup, year):
-	# Get team names
-	teamStats = []
-	isTeam = False
-	teamNames = getTeamNames(soup)
-	#print(teamNames)
-
-	fileName = "data/mlbStats" + str(year) + ".txt"
-	teamStats = open(fileName, "w")
-
+def getTableHeaders(soup, writeFile):
 	# Get table headers
 	headerList = []
 	for headerRow in soup.find("thead").find("tr").find_all("th"):
@@ -67,47 +64,104 @@ def statsToCSV(soup, year):
 		headerText = str(headerRow.text)
 		if isUpper(headerText):
 			headerList.append(headerText[:len(headerText)//2])
-			#teamStats.write(headerText[:len(headerText)//2])
-			#teamStats.write(",")
-		#sys.stdout.write(headerText)
-		#sys.stdout.write(",")
-	teamStats.write(",".join(headerList))
-	teamStats.write("\n")
+	return headerList
 
-	# Get data and input into csv
-	iterator = 0
-	for link in soup.find_all("tr"):
+def getTableToCsv(soup, isElem, fileWrite):
+	# Search in soup for 
+	for link in soup.find("tbody").find_all("tr"):
 		# Team name headers begin with numbers
-		if (link.text[0] == "1"): 
-			isTeam = True
-		if not isTeam:
-			continue
-		teamStats.write(teamNames[iterator])
-		iterator += 1
+		if not isElem:
+			break
+		fileWrite.write(strSlicer(link.find("th").text))
 
 		for i in link.find_all("td"):
-			teamStats.write(",")
-			teamStats.write(i.text)
-		teamStats.write("\n")
-	teamStats.close()
+			fileWrite.write(",")
+			fileWrite.write(i.text)
+		fileWrite.write("\n")
 
-def getStatsForYear(year):
+def statsToCSV(soup, year, getHeader=True, getPlayers=False, getPitchers=False, appending=False):
+	# Defaults to getting team data rather than player data
+	# Open output text file depending on what data you are looking for
+	if getPitchers:
+		fileName = "data/mlbPitcherStats" + str(year) + ".txt"
+	elif getPlayers:
+		fileName = "data/mlbPlayerStats" + str(year) + ".txt"
+	else:
+		fileName = "data/mlbTeamStats" + str(year) + ".txt"
+
+	if appending:
+		teamStats = open(fileName, "a")
+	else:
+		teamStats = open(fileName, "w")
+
+	# Get table headers
+	if getHeader:
+		headerList = getTableHeaders(soup, teamStats)
+		teamStats.write(",".join(headerList))
+		teamStats.write("\n")
+
+	# Get team names
+	teamNames = getTeamNames(soup)
+	
+	# Get data and input into csv
+	isElem = True
+	if (soup.find("tbody") == None):
+		isElem = False
+	elif (soup.find("tbody").find("tr") == None):
+		isElem = False
+	else:
+		getTableToCsv(soup, isElem, teamStats)
+
+	teamStats.close()
+	return isElem
+
+
+def getStatsForYear(year, getPlayers=False, getPitchers=False):
 	# Create url
-	url = "https://www.mlb.com/stats/team/"
+	if getPlayers:
+		url = "https://www.mlb.com/stats/player/games/"
+	elif getPitchers:
+		url = "https://www.mlb.com/stats/player/pitching/games/"
+	else:
+		url = "https://www.mlb.com/stats/team/games/"
 	urlYear = url + str(year) + "/regular-season"
 
-	# Get HTML and put through beautiful soup
-	response = requests.get(urlYear)
-	soup = BeautifulSoup(response.text, "html.parser")
-	statsToCSV(soup, year)
+	# Set local variables
+	iter = 1
+	boolVar = True
+	firstIter = True
+	while boolVar:
+		# Get HTML and put through beautiful soup
+		if (getPitchers or getPlayers):
+			urlYear = url + str(year) + "/regular-season" + "?page=" + str(iter)
+			print("url:  " + urlYear)
+		
+		# Create soup and input to csv
+		response = requests.get(urlYear)
+		soup = BeautifulSoup(response.text, "html.parser")
+		boolVar = statsToCSV(soup, year, getHeader=firstIter, getPitchers=getPitchers, getPlayers=getPlayers, appending=(not firstIter))
+		
+		firstIter = False
+		iter += 1
+		if (not getPitchers) and (not getPlayers):
+			boolVar = False
 
-#getStatsForYear(2021)
+#getStatsForYear(2021, getPitchers=True)
 def statsToCSVMultYears(years):
 	for i in years:
-		getStatsForYear(i)
+		getStatsForYear(i, getPlayers=True)
+		getStatsForYear(i, getPitchers=True)
 
-yearsList = []
-for i in range(endYear-startYear+1):
-	print(startYear + i)
-	yearsList.append(startYear + i)
-statsToCSVMultYears(yearsList)
+def start():
+	yearsList = []
+	for i in range(len(year_ranges)):
+		#print(startYear + i)
+		yearsList.append(startYear + i)
+	statsToCSVMultYears(yearsList)
+
+def setYearRange(sY, eY):
+	endYear = eY
+	startYear = sY
+
+if len(sys.argv) > 1:
+    start()

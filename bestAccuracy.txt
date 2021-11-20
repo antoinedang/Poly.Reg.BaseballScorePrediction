@@ -1,0 +1,24 @@
+Highest Accuracy:
+	Ridge
+		Mean Squared Error: 17.301773560823726
+		Accuracy: 58.440000000000005%
+		Parameters: {'alpha': 0.8, 'copy_X': True, 'fit_intercept': True, 'max_iter': 50000, 'normalize': 'deprecated', 'positive': False, 'random_state': None, 'solver': 'auto', 'tol': 1e-05}		Predicted: [[-4.58055661e-01]
+ [-3.31626861e-01]
+ [ 5.32858400e-01]
+ [-1.23030158e-04]
+ [ 1.86487183e-01]
+ [ 6.77163756e-01]
+ [-1.16505288e-01]
+ [ 2.04341053e-01]
+ [-2.17753994e-01]
+ [ 5.09822233e-01]]		True: [[-0.8220252 ]
+ [ 0.98235749]
+ [ 0.20905062]
+ [-0.30648729]
+ [ 0.20905062]
+ [ 0.20905062]
+ [-0.04871833]
+ [ 0.72458853]
+ [-1.33756311]
+ [-0.04871833]]
+		Hyperparameters: num_components: 500, max_samples: 5000, startYear: 1990, endYear: 2020
