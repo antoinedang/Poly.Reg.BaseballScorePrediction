@@ -14,7 +14,7 @@ numPitcherStats = 19 #
 add_reverse_games = False #if True adds each game twice with reverse order
 ignoredStats = []
 
-startYear, endYear, max_samples = 0,0,0 #change these in BBModel
+startYear, endYear, max_samples = 0,0,-1 #change these in BBModel
 
 gamesLoaded = 0
 gamesDisregarded = 0
@@ -118,7 +118,8 @@ def build_player_pitcher_dicts(home, visiting):
             players[player] = (team, numStats, startIndex)
     return players, pitchers
 
-def findStats(players, playerStatSheet, _discardedSamples, year, stats, i): #find the stats for one list of players in a dictionary with their corresponding index in stats matrix
+def findStats(players, playerStatSheet, _discardedSamples, year, stats, i, forWebapp=False): #find the stats for one list of players in a dictionary with their corresponding index in stats matrix
+    if (forWebapp): stats = [ stats ]
     try:
         #iterate through each row to find the players stats
         for row in range(len(playerStatSheet)):
@@ -129,10 +130,11 @@ def findStats(players, playerStatSheet, _discardedSamples, year, stats, i): #fin
             #adding our game worth stat to stats array, this is temporary game worth should be a hyperparameter later (make the worth of this training sample less)
             individualStats = playerStats.split(",")[2:]
             tryTeam = teams.get(playerStats.split(",")[1])
-            if (str(tryTeam) == "None"):
+            if (str(tryTeam) == "None" and not forWebapp):
                 print("Missing team ID: " + playerStats.split(",")[1] + "  " + player + str(year))
             else:
-                tryTeam = tryTeam.lower()
+                if not forWebapp: tryTeam = tryTeam.lower()
+                else: tryTeam = ""
             tryPlayer = playerStats.split(",")[0].lower()
 
             #iterate through each player still in the dictionary
@@ -144,16 +146,20 @@ def findStats(players, playerStatSheet, _discardedSamples, year, stats, i): #fin
                         if (s in ignoredStats): continue
                         try:
                             float(individualStats[s])
-                        except:
+                        except Exception as e:
+                            print("failed try statement in for loop in findstats: " + e)
                             return False
                         for p in range(polynomialDegree):
                             stats[i-_discardedSamples][startIndex + p + polynomialDegree*s] = float(individualStats[s])**(p+1)
 
                     players.pop(player, None)
                     break
-        if len(players) > 0: return False
+        if len(players) > 0:
+            print("couldnt find all players. remaining: " + str(players))
+            return False
         else: return True
-    except:
+    except Exception as e:
+        print("failed try statement in findstats: " + e)
         return False
 
         

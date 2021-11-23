@@ -13,6 +13,9 @@ from sklearn.svm import SVR
 from sklearn.cross_decomposition import PLSRegression
 from datetime import datetime
 import GenerateGameData
+import pickle
+
+
 time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
 
@@ -53,7 +56,7 @@ def saveScore(accuracy, mse, name, parameters, startTime, pred, true, n_comp):
 def updateHighScore(accuracy, mse, name, parameters, pred, true, n_comp):
     try:
         data = open("bestMSE.txt", 'r').readlines()
-        lowestMSE = float(data[2][22:])
+        lowestMSE = float(data[2][23:])
     except:
         data = [""]
         lowestMSE = 1000000000.0
@@ -238,4 +241,44 @@ def runDefaultModels(trainx, trainy, testx, testy):
     predictedScores = model.predict(testx)
     score(predictedScores, testy, "Random Forest", model.get_params(), False, startTime, trainx.shape[1])
 
-start()
+def saveModel(alpha, maxiter, numc):
+    
+    training_x = pickle.load(open('.trainx.sav', 'rb'))
+    test_x = pickle.load(open('.testx.sav', 'rb'))
+    valid_x = pickle.load(open('.validx.sav', 'rb'))
+    training_y = pickle.load(open('.trainy.sav', 'rb'))
+    test_y = pickle.load(open('.testy.sav', 'rb'))
+    valid_y = pickle.load(open('.validy.sav', 'rb'))
+
+    training_x = np.concatenate((training_x, test_x, valid_x), axis = 0)
+    training_y = np.concatenate((training_y, test_y, valid_y), axis = 0)
+
+    print(training_x.shape)
+    print(training_y.shape)
+
+    scalerx = preprocessing.StandardScaler().fit(training_x)
+    training_x = scalerx.transform(training_x)
+
+    print(training_x.shape)
+    print(training_y.shape)
+
+    scalery = preprocessing.StandardScaler().fit(training_y.reshape(-1, 1))
+    training_y = scalery.transform(training_y.reshape(-1, 1))
+
+    print(training_x.shape)
+    print(training_y.shape)
+
+    pca = PCA(n_components = numc)
+    training_x = pca.fit_transform(training_x)
+
+    pickle.dump(scalerx, open('.scaler.sav', 'wb'))
+    pickle.dump(pca, open('.pca.sav', 'wb'))
+
+    print(training_x.shape)
+    print(training_y.shape)
+    
+    model = skm.Ridge(alpha=alpha, max_iter=maxiter, tol=0.00001, solver='auto')
+    model.fit(training_x, training_y)
+    pickle.dump(model, open('.finalized_model.sav', 'wb'))
+
+saveModel(0.11280000000000001, 5000, 500)
