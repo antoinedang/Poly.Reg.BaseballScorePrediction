@@ -168,5 +168,5 @@ def setYearRange(sY, eY):
 	endYear = eY
 	startYear = sY
 
-if len(sys.argv) > 1:
+if __name__ == '__main__':
     start(startYear,endYear)
