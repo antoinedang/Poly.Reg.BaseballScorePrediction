@@ -19,7 +19,8 @@
             let homeTeam = document.getElementById("homeTeam").value;
             //let date = document.getElementById("dateGame").value;
             const elemList = [ homeTeam, visitingTeam ]
-
+            
+            results.innerText = "loading data..."
 
             console.log("hi!")
             fetch("http://127.0.0.1:5000/data", {
@@ -36,6 +37,7 @@
 
         function getRandomData(){
             let results = document.getElementById("results")
+            results.innerText = "loading data..."
             fetch("http://127.0.0.1:5000/randData", {
                 method: 'POST'
             })

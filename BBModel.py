@@ -257,5 +257,5 @@ def createFinalModel(): #creates and saves the final model to the filesystem
 
 createFinalModel()
 
-if len(sys.argv) >= 2:
+if __name__ == '__main__':
     startHyperparameterSearch() #allows us to run this script from terminal (just add an argument) but also avoids it running default functions when it is imported by the BBModel script

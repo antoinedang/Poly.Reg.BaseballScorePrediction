@@ -473,5 +473,5 @@ def setup():
     #creates training, test, and validation data sets and writes them to the filesystem so they only have to be generated once
     createTrainingFiles(gameDataFile)
 
-if len(sys.argv) >= 2:
+if __name__ == '__main__':
     setup() #allows us to run this script from terminal (just add an argument) but also avoids it running default functions when it is imported by the BBModel script

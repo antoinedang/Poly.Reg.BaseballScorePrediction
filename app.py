@@ -80,6 +80,7 @@ def predictScore(playerList):
     success1 = GenerateGameData.findStats(pitchers, pitcherStatSheet, 0, 2021, testx, 0, True)
 
     if not success or not success1:
+        raise Exception
         output += "\nError in getting stats."
         return output
 
@@ -143,9 +144,11 @@ def data():
     refreshStats()
     playerDict = dict()
 
-    print(type(request.data))
+
     info = request.data.decode('ISO-8859-1')
-    print(info)
+    if info == ",":
+        return {"winner_text": "Blank fields. Please try again or use randomize."}
+
     playerList = []
     for i in info.split(','):
         if (i[0] in "1234567890"):
@@ -153,6 +156,7 @@ def data():
         playerList.append(i.strip('" '))    
     
     message = ""
+    pScore = 0
 
     for i in range(len(playerList)):
         if i==0:
@@ -165,7 +169,11 @@ def data():
     message += ("\n")
     message += ("\n")
 
-    message1, pScore = predictScore(playerList)
+    try:
+        message1, pScore = predictScore(playerList)
+    except:
+        message1 = "Error in finding names. Please try again."
+        message = ""
 
     
     return {"pred_score": pScore, 'rounded_score': round(pScore), "winner_text": (message + message1)}
@@ -179,13 +187,13 @@ def randData():
     randomTeam = getRandomTeam()
     output = ""
     output += ("Home Team: \n")
-    for x in randomTeam[:9]:
-        output += (x + "\n")
+    for i in range(len(randomTeam[:9])):
+        output += (randomTeam[i] + "   (" + str(position[(i) % 9])+ ")\n")
         
     output += ("\n")
     output += ("Visiting Team: \n")
-    for x in randomTeam[9:]:
-        output += (x + "\n")
+    for i in range(len(randomTeam[9:])):
+        output += (randomTeam[9+i] + "   (" + str(position[(i) % 9])+ ")\n")
 
     output += ("\n")
     output += ("\n")
