@@ -254,3 +254,8 @@ def saveModel(alpha, maxiter, numc):
 def createFinalModel(): #creates and saves the final model to the filesystem
     #saveModel(alpha, max_iter, pca num components)
     saveModel(0.11280000000000001, 5000, 500)
+
+createFinalModel()
+
+if len(sys.argv) >= 2:
+    startHyperparameterSearch() #allows us to run this script from terminal (just add an argument) but also avoids it running default functions when it is imported by the BBModel script
