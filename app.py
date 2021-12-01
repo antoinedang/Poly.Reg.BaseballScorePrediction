@@ -1,6 +1,5 @@
 # Import flask
 import io
-import torch
 from flask import Flask, render_template, request
 import DataCollection
 import GenerateGameData
@@ -14,7 +13,7 @@ import json
 # Run app
 app = Flask(__name__)
   
-
+position = ["Pitcher", "Catcher", "First Baseman", "Second Baseman", "Third Baseman", "Shortstop", "Left Fielder", "Center Fielder", "Right Fielder"]
 
 
 ## Code to compile before
@@ -95,13 +94,13 @@ def predictScore(playerList):
     result = float(loaded_model.predict(testx))
 
     if (abs(result) < 0.45):output += "\nPredicted outcome: Tie game!"
-    elif (result > 0): output += ("\nPredicted outcome: Team 1 wins!")
-    else: output += ("\nPredicted outcome: Team 2 wins!")
+    elif (result > 0): output += ("\nPredicted outcome: Home team wins!")
+    else: output += ("\nPredicted outcome: Visiting team wins!")
     output += ("\nPredicted score difference (rounded): " + str(round(result)))
     output += ("\nPredicted score difference (actual) " + str(result)[:5])
     #run model and predict score
     #display to screen
-    return output
+    return output, result
 
 def getAllPitchers():
     statSheet = open("data/mlbPitcherStats2021.txt", encoding="ISO-8859-1").readlines()[1:]
@@ -126,6 +125,14 @@ def getRandomTeam():
     randomPlayers = random.sample(getAllPlayers(), 16)
     return [ randomPitchers[0], randomPlayers[0], randomPlayers[1], randomPlayers[2], randomPlayers[3], randomPlayers[4], randomPlayers[5], randomPlayers[6], randomPlayers[7], randomPitchers[1], randomPlayers[8], randomPlayers[9], randomPlayers[10], randomPlayers[11], randomPlayers[12], randomPlayers[13], randomPlayers[14], randomPlayers[15] ]
 
+def winnerText(result):
+    output = ""
+    if (abs(result) < 0.45):output += "\nPredicted outcome: Tie game!"
+    elif (result > 0): output += ("\nPredicted outcome: Home team wins!")
+    else: output += ("\nPredicted outcome: Visiting team wins!")
+    output += ("\nPredicted score difference (rounded): " + str(round(result)))
+    output += ("\nPredicted score difference (actual) " + str(result)[:5])
+    return output
 
 @app.route("/")
 def index():
@@ -133,35 +140,59 @@ def index():
 
 @app.route("/data", methods=["POST", "GET"])
 def data():
+    refreshStats()
     playerDict = dict()
 
     print(type(request.data))
-    print(request.data)
+    info = request.data.decode('ISO-8859-1')
+    print(info)
+    playerList = []
+    for i in info.split(','):
+        if (i[0] in "1234567890"):
+            break
+        playerList.append(i.strip('" '))    
+    
+    message = ""
 
-    return playerDict
+    for i in range(len(playerList)):
+        if i==0:
+            message += "Home Team:\n"
+        if i == 9:
+            message += ("\n")
+            message += ("\n")
+            message += "Visiting Team:\n"
+        message += (playerList[i].strip('"') + "   (" + str(position[(i) % 9])+ ")\n")
+    message += ("\n")
+    message += ("\n")
 
-'''
-@app.route("/")
-def homePage():
+    message1, pScore = predictScore(playerList)
+
+    
+    return {"pred_score": pScore, 'rounded_score': round(pScore), "winner_text": (message + message1)}
+
+
+@app.route("/randData", methods=["POST", "GET"])
+def randData():
     refreshStats()
 
     #assembles random teams and guesses outcome of game
     randomTeam = getRandomTeam()
     output = ""
-    output += ("Team 1: \n")
+    output += ("Home Team: \n")
     for x in randomTeam[:9]:
         output += (x + "\n")
         
     output += ("\n")
-    output += ("Team 2: \n")
+    output += ("Visiting Team: \n")
     for x in randomTeam[9:]:
         output += (x + "\n")
 
     output += ("\n")
     output += ("\n")
     
-    output += predictScore( randomTeam )
-    return output
-'''
+    output += predictScore( randomTeam )[0]
+
+    return {"winner_text": output}
+
 
 app.run(debug=False)  

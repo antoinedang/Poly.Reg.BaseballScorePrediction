@@ -1,16 +1,24 @@
-<!DOCTYPE html>
+
 
 <html>
 <head>
     <h1>Baseball Game Predictor (BETA)</h1>
 
     <script>// Add functions here
+        function resetPage() {
+            let results = document.getElementById("results")
+            let field1 = document.getElementById("visitingTeam")
+            let field2 = document.getElementById("homeTeam")
+            field1.value = ''
+            field2.value = ''
+            results.innerText = ""
+        }
         function getData() {
-            let elem = document.getElementById("form")
+            let results = document.getElementById("results")
             let visitingTeam = document.getElementById("visitingTeam").value;
             let homeTeam = document.getElementById("homeTeam").value;
-            let date = document.getElementById("dateGame").value;
-            const elemList = {home: homeTeam, visit: visitingTeam, dateG: date}
+            //let date = document.getElementById("dateGame").value;
+            const elemList = [ homeTeam, visitingTeam ]
 
 
             console.log("hi!")
@@ -22,7 +30,20 @@
               return response.json()
             })
             .then(function (data){
-              elem.innerText = "Horray!"  
+              results.innerText = data["winner_text"]
+            })
+        }
+
+        function getRandomData(){
+            let results = document.getElementById("results")
+            fetch("http://127.0.0.1:5000/randData", {
+                method: 'POST'
+            })
+            .then(function (response){
+              return response.json()
+            })
+            .then(function (randData){
+              results.innerText = randData["winner_text"]
             })
         }
         
@@ -31,7 +52,7 @@
 </head>
 
 <body>
-    Please enter the home and visiting teams players seperated by commas in the following order: <br>
+    Please enter the home and visiting teams' players seperated by commas in the following order: <br>
     Pitcher, First Baseman, Second Baseman, Third Baseman, Shortstop, Left Fielder, Center Fielder, Right Fielder<br>
     
 </br>
@@ -43,16 +64,22 @@
         <label for="visitingTeam">Visiting Team:</label> <br>
         <input type="text" id="visitingTeam" name="visitingTeam"> <br><br>
 
+        <!--
         <label for="dateGame">Enter Date:</label> <br>
         <input type="date" id="dateGame" name="dateGame"> <br><br>
-
-        <!-- Hiding submit button for now
+        Hiding submit button for now
         <input type="submit" value="Submit">
         -->
-        <button onclick="getData();">Susmit</button> 
-        <input type="reset">
-</br>   
+        <button onclick="getRandomData();">Randomize</button>
+        <button onclick="getData();">Predict!</button>
+        <button onclick="resetPage();">Reset</button> 
+        
     
+</br>   
+    <div id="results">
+        <h2></h2>
+    </div>
+
 
 </body>
 </html>

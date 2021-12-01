@@ -64,8 +64,8 @@ def predictScore(playerList):
     loaded_model = pickle.load(open('.finalized_model.sav', 'rb'))
     result = float(loaded_model.predict(testx))
 
-    if (result > 0): print("Predicted outcome: Team 1 wins!")
-    else: print("Predicted outcome: Team 1 wins!")
+    if (result > 0): print("Predicted outcome: Home team wins!")
+    else: print("Predicted outcome: Visiting team wins!")
     print("Predicted score difference: " + str(result))
     #run model and predict score
     #display to screen
