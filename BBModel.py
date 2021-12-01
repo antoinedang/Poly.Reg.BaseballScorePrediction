@@ -15,13 +15,11 @@ from datetime import datetime
 import GenerateGameData
 import pickle
 
-
+#display starting message with the current time
 time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-
-
 print("Starting Baseball Stats Model > " + time)
 
-
+#parameters
 max_samples = -1
 use_pca = True
 use_scaling = True
@@ -29,47 +27,58 @@ shuffle_data = True
 startYear = 1990
 endYear = 2020
 num_components = 500
+
+#hyperparameters for hyperparameter search
+hyperparameters = [ [0], [0], [0] ] #empty array to store arrays
+hyperparameters[0] = [ 50, 75, 100, 200, 500, 750, 1000, 1500, 2500 ] #num_components for pca
+hyperparameters[1] = [x * 0.1 for x in range(1, 20)] #for alpha
+hyperparameters[2] = [ 500, 1000, 5000, 10000, 50000 ] #for max_iter
+
+#update GenerateGameData's parameters
 GenerateGameData.startYear = startYear
 GenerateGameData.endYear = endYear
 GenerateGameData.max_samples = max_samples
 
-
+#function that saves the input score to a file along with information about the model that acheived the results
 def saveScore(accuracy, mse, name, parameters, startTime, pred, true, n_comp):
     scores = open("modelResults.txt", 'a')
+    #get time
     time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+
     output = ""
-    output += "-------------- " + startTime + " --------------\n"
-    output += "\t" + name + "\n"
-    output += "\t\t" + "Mean Squared Error: " + str(mse) + "\n"
-    output += "\t\t" + "Accuracy: " + str(accuracy) + "%\n"
-    output += "\t\t" + "Parameters: " + str(parameters)
-    output += "\n\t\t" + "Predicted: " + str(pred[:10])
-    output += "\n\t\t" + "Mean of predicted: " + str(np.mean(pred))
-    output += "\n\t\t" + "True: " + str(true[:10])
-    output += "\n\t\t" + "Mean of true: " + str(np.mean(true))
+    output += "-------------- " + startTime + " --------------\n" #show starting time of model training
+    output += "\t" + name + "\n" #name of the model
+    output += "\t\t" + "Mean Squared Error: " + str(mse) + "\n" #MSE of this model's predictions
+    output += "\t\t" + "Accuracy: " + str(accuracy) + "%\n" #accuracy this model achieved
+    output += "\t\t" + "Parameters: " + str(parameters) #all the models parameters
+    output += "\n\t\t" + "Predicted: " + str(pred[:10]) #first 10 predicted outcomes
+    output += "\n\t\t" + "Mean of predicted: " + str(np.mean(pred)) #mean of the model predictions
+    output += "\n\t\t" + "True: " + str(true[:10]) #first 10 target outcomes
+    output += "\n\t\t" + "Mean of true: " + str(np.mean(true)) #mean of the target outcomes
     output += "\n\t\t" + "Hyperparameters: num_components: " + str(n_comp) + ", max_samples: " + str(max_samples) + ", startYear: " + str(startYear) + ", endYear: " + str(endYear)
-    output += "\n-------------- " + time + " --------------\n"
+    output += "\n-------------- " + time + " --------------\n" #show end time of model training
 
     scores.write(output)
     scores.close()
 
 def updateHighScore(accuracy, mse, name, parameters, pred, true, n_comp):
-    try:
+    try: #if high score file exists
         data = open("bestMSE.txt", 'r').readlines()
-        lowestMSE = float(data[2][23:])
-    except:
+        lowestMSE = float(data[2][23:]) #get current best MSE
+    except: #if highScore file doesnt exist set a high MSE so it will be beat
         data = [""]
         lowestMSE = 1000000000.0
 
-    try:
+    try: #if high score file exists
         data = open("bestAccuracy.txt", 'r').readlines()
-        highestAccuracy = float(data[3][12:18])
+        highestAccuracy = float(data[3][12:18]) #get current best accuracy
     except:
         data = [""]
         highestAccuracy = 0.0
 
 
     output = ""
+     #if this model has a new best accuracy overwrite the bestAccuracy.txt file with this model's details
     if (accuracy > highestAccuracy):
         output += "Highest Accuracy:\n"
         output += "\t" + name + "\n"
@@ -87,6 +96,7 @@ def updateHighScore(accuracy, mse, name, parameters, pred, true, n_comp):
         bestAccuracy.close()
     
     output = ""
+     #if this model has a new best MSE overwrite the bestMSE.txt file with this model's details
     if (mse < lowestMSE):
         output += "Lowest Mean Squared Error:\n"
         output += "\t" + name + "\n"
@@ -103,34 +113,45 @@ def updateHighScore(accuracy, mse, name, parameters, pred, true, n_comp):
         bestMSE.write(output)
         bestMSE.close()
 
-#function that prints the score of a model's prediction on a stat set
-def score(pred, true, name, parameters, reverse, startTime, n_comp):
-    if (reverse): print (pred[:100])
+#function that prints the score of a model's prediction on a stat set, saves the result to the filesystem and updates the high score
+def score(pred, true, name, parameters, startTime, n_comp):
+
     num_samples = float(len(pred))
     squaredError = 0.0
     correct_outcomes = 0
+    
+    #go through predictions
     for i in range(len(pred)):
-        if reverse and pred[i]*true[i] < 0: correct_outcomes += 1
-        if pred[i]*true[i] > 0 and not reverse: correct_outcomes += 1
+        #if they are correct count it as so
+        if pred[i]*true[i] == 0 and pred[i]+true[i] == 0: correct_outcomes += 1
+        elif pred[i]*true[i] > 0: correct_outcomes += 1
+        #add to overall mean squared error
         squaredError += ((pred[i]-true[i])**2.0)/num_samples
 
+    #check if this result beats the high score
     updateHighScore(float(correct_outcomes/num_samples*100.0), squaredError, name, parameters, pred, true, n_comp)
+
+    #save this result to the filesystem so we can see all our training
     saveScore(float(correct_outcomes/num_samples*100.0), squaredError, name, parameters, startTime, pred, true, n_comp)
 
+    #print basic info about the model to console for status update
     print("===== " + name + " =====")
     print("Mean squared error: " + str(squaredError))
     print("Model predicted outcome correctly " + str(correct_outcomes) + " times out of " + str(num_samples) + " games. (%.2f" % float(correct_outcomes/num_samples*100.0) + "% Accuracy)")
 
 ################### TESTING CODE
 
-def start():
+def startHyperparameterSearch():
+    #load training data from file
     training_x, training_y, status = GenerateGameData.loadFromFile("data/TrainingData" + str(startYear) + "-" + str(endYear) + ".txt", shuffle_data)
+    #if it hasnt been generated yet, generate and load it
     if (status == 1):
         GenerateGameData.setup()
         training_x, training_y, status = GenerateGameData.loadFromFile("data/TrainingData" + str(startYear) + "-" + str(endYear) + ".txt", shuffle_data)
+    #load test data from file
     test_x, test_y, status = GenerateGameData.loadFromFile("data/TestData" + str(startYear) + "-" + str(endYear) + ".txt", shuffle_data)
 
-    if (use_scaling):
+    if (use_scaling): #standardize the x and y arrays for training and test
         scalerx = preprocessing.StandardScaler().fit(training_x)
         training_x = scalerx.transform(training_x)
         test_x = scalerx.transform(test_x)
@@ -139,146 +160,97 @@ def start():
         training_y = scalery.transform(training_y.reshape(-1, 1))
         test_y = scalery.transform(test_y.reshape(-1, 1))
 
-    if (use_pca):
+    if (use_pca): #pca the x and y arrays for training and test data
         pca = PCA(n_components = num_components)
         old_training_x = training_x
         old_test_x = test_x
         training_x = pca.fit_transform(training_x)
         test_x = pca.transform(test_x)
 
-    
+    #append a starting message to the log (indicating we started a hyperparameter search)
     log = open("modelResults.txt", 'a')
     output = ""
-    output += "-------------- | --------------\n"
+    output += "\n"
+    output += "\n"
+    output += "\n|"
+    output += "\n|"
+    output += "\n|"
     output += "----- " + datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + " -----\n"
-    output += "-------------- | --------------\n"
+    output += "|"
+    output += "\n|"
     log.write(output)
     log.close()
 
-    #MODELS
-    #custom parameters
-    hyperparameters = [ [0], [0], [0], [0] ]
-    hyperparameters[0] = [ 50, 75, 100, 200, 500, 750, 1000, 1500, 2500 ] #num_components for pca
-    hyperparameters[1] = [x * 0.1 for x in range(1, 20)] #for alpha
-    hyperparameters[2] = [ 500, 1000, 5000, 10000, 50000 ] #for max_iter
-
-    #runDefaultModels(training_x, training_y, test_x, test_y)
-
     for component in hyperparameters[0]:#num_components for pca
+
+        #pca the training and test data with the new num components
         pca.set_params(n_components = component)
         training_x = pca.fit_transform(old_training_x)
         test_x = pca.transform(old_test_x)
 
-        
-        log = open("modelResults.txt", 'a')
-        output = ""
-        output += "-------------- | --------------\n"
-        output += "------ NEW NUM COMPONENTS -----\n"
-        output += str(component) + "\n"
-        output += str(training_x.shape) + "\n"
-        output += "-------------- | --------------\n"
-        log.write(output)
-        log.close()
-        print(training_x.shape)
-        print(test_x.shape)
-
+        #get the time this model started training
         startTime = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+        #create and fit model to data
         model = skm.LinearRegression(fit_intercept=True, normalize='deprecated', copy_X=True, n_jobs=-1, positive=False)
         model.fit(training_x, training_y)
+        #predict scores with test set
         predictedScores = model.predict(test_x)
-        score(predictedScores, test_y, "Linear", model.get_params(), False, startTime, component)
+        #score and log the model
+        score(predictedScores, test_y, "Linear", model.get_params(), startTime, component)
 
-        for maxiter in hyperparameters[2]: #for alpha
-
+        for maxiter in hyperparameters[2]: #for maxiter
+            #do the same for each different maxiter value
             startTime = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
             model = PLSRegression(n_components=component, scale=False, max_iter=maxiter, tol=1e-06, copy=True)
             model.fit(training_x, training_y)
             predictedScores = model.predict(test_x)
-            score(predictedScores, test_y, "Partial Least Squares", model.get_params(), False, startTime, component)
+            score(predictedScores, test_y, "Partial Least Squares", model.get_params(), startTime, component)
 
             for alpha in hyperparameters[1]: #for alpha
-
+                #do the same for each different alpha value
                 startTime = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
                 model = skm.Ridge(alpha=alpha, max_iter=maxiter, tol=0.00001, solver='auto')
                 model.fit(training_x, training_y)
                 predictedScores = model.predict(test_x)
-                score(predictedScores, test_y, "Ridge", model.get_params(), False, startTime, component)
-
-def runDefaultModels(trainx, trainy, testx, testy):
-    startTime = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-    model = skm.LinearRegression(n_jobs=-1)
-    model.fit(trainx, trainy)
-    predictedScores = model.predict(testx)
-    score(predictedScores, testy, "Linear", model.get_params(), False, startTime, trainx.shape[1])
-
-    startTime = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-    model = skm.Ridge(alpha=1.0, max_iter=None, tol=0.0001, solver='auto')
-    model.fit(trainx, trainy)
-    predictedScores = model.predict(testx)
-    score(predictedScores, testy, "Ridge", model.get_params(), False, startTime, trainx.shape[1])
-
-    startTime = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-    model = skm.Lasso(alpha=1.0, fit_intercept=True, normalize='deprecated', precompute=False, copy_X=True, max_iter=1000, tol=0.0001, warm_start=False, positive=False, random_state=None, selection='cyclic')
-    model.fit(np.asfortranarray(trainx), trainy)
-    predictedScores = model.predict(testx)
-    score(predictedScores, testy, "Lasso", model.get_params(), False, startTime, trainx.shape[1])
-
-    startTime = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-    model = PLSRegression(n_components=2, scale=True, max_iter=500, tol=1e-06, copy=True)
-    model.fit(trainx, trainy)
-    predictedScores = model.predict(testx)
-    score(predictedScores, testy, "Partial Least Squares", model.get_params(), False, startTime, trainx.shape[1])
-
-    startTime = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-    model = SVR(kernel='rbf', degree=3, gamma='scale', coef0=0.0, tol=0.001, C=1.0, epsilon=0.1, shrinking=True, cache_size=200, max_iter=- 1, verbose=True)
-    model.fit(trainx, trainy)
-    predictedScores = model.predict(testx)
-    score(predictedScores, testy, "Support Vector Machines", model.get_params(), False, startTime, trainx.shape[1])
-
-    startTime = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-    model = RandomForestRegressor(n_estimators=100, criterion='squared_error', max_depth=None, min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0, max_features='auto', max_leaf_nodes=None, min_impurity_decrease=0.0, bootstrap=True, oob_score=False, n_jobs=-1, random_state=None, warm_start=False, ccp_alpha=0.0, max_samples=None, verbose=True)
-    model.fit(trainx, trainy)
-    predictedScores = model.predict(testx)
-    score(predictedScores, testy, "Random Forest", model.get_params(), False, startTime, trainx.shape[1])
+                score(predictedScores, test_y, "Ridge", model.get_params(), startTime, component)
 
 def saveModel(alpha, maxiter, numc):
     
-    training_x = pickle.load(open('.trainx.sav', 'rb'))
-    test_x = pickle.load(open('.testx.sav', 'rb'))
-    valid_x = pickle.load(open('.validx.sav', 'rb'))
-    training_y = pickle.load(open('.trainy.sav', 'rb'))
-    test_y = pickle.load(open('.testy.sav', 'rb'))
-    valid_y = pickle.load(open('.validy.sav', 'rb'))
-
+    #load datasets from the file
+    training_x, training_y, result1 = GenerateGameData.loadFromFile("data/TrainingData" + str(startYear) + "-" + str(endYear) + ".txt")
+    test_x, test_y, result2 = GenerateGameData.loadFromFile("data/TestData" + str(startYear) + "-" + str(endYear) + ".txt")
+    valid_x, valid_y, result3 = GenerateGameData.loadFromFile("data/ValidationData" + str(startYear) + "-" + str(endYear) + ".txt")
+    
+    if result1+result2+result3 > 0: #if the data hasn't been generated yet
+        GenerateGameData.setup() #create the datasets and writes them to file for later
+        #load them from filesystem
+        training_x, training_y, ignore = GenerateGameData.loadFromFile("data/TrainingData" + str(startYear) + "-" + str(endYear) + ".txt")
+        test_x, test_y, ignore = GenerateGameData.loadFromFile("data/TestData" + str(startYear) + "-" + str(endYear) + ".txt")
+        valid_x, valid_y, ignore = GenerateGameData.loadFromFile("data/ValidationData" + str(startYear) + "-" + str(endYear) + ".txt")
+        
+    #combine all data into one huge dataset
     training_x = np.concatenate((training_x, test_x, valid_x), axis = 0)
     training_y = np.concatenate((training_y, test_y, valid_y), axis = 0)
 
-    print(training_x.shape)
-    print(training_y.shape)
-
+    #standardize the x and y sets
     scalerx = preprocessing.StandardScaler().fit(training_x)
     training_x = scalerx.transform(training_x)
-
-    print(training_x.shape)
-    print(training_y.shape)
-
     scalery = preprocessing.StandardScaler().fit(training_y.reshape(-1, 1))
     training_y = scalery.transform(training_y.reshape(-1, 1))
 
-    print(training_x.shape)
-    print(training_y.shape)
-
+    #lower the number of components with PCA
     pca = PCA(n_components = numc)
     training_x = pca.fit_transform(training_x)
 
+    #save the scaler and pca instance to a file (so we can use the exact same pca and scaling in our webapp)
     pickle.dump(scalerx, open('.scaler.sav', 'wb'))
     pickle.dump(pca, open('.pca.sav', 'wb'))
-
-    print(training_x.shape)
-    print(training_y.shape)
     
+    #create our model, fit it to the data, and save it to a file (so we can predict outcomes in our webapp)
     model = skm.Ridge(alpha=alpha, max_iter=maxiter, tol=0.00001, solver='auto')
     model.fit(training_x, training_y)
     pickle.dump(model, open('.finalized_model.sav', 'wb'))
 
-saveModel(0.11280000000000001, 5000, 500)
+def createFinalModel(): #creates and saves the final model to the filesystem
+    #saveModel(alpha, max_iter, pca num components)
+    saveModel(0.11280000000000001, 5000, 500)
