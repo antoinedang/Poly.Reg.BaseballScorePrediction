@@ -1,6 +1,28 @@
 Lowest Mean Squared Error:
-	K-Nearest Neighbours
-		Mean Squared Error: 0.9813318334320787
-		Accuracy: 54.50757911532666%
-		Parameters: {'algorithm': 'auto', 'leaf_size': 10, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': -1, 'n_neighbors': 200, 'p': 2, 'weights': 'distance'}
+	Ridge
+		Mean Squared Error: [3485.11854189]
+		Accuracy: 57.867210353692045%
+		Parameters: {'alpha': 1.9000000000000001, 'copy_X': True, 'fit_intercept': True, 'max_iter': 50000, 'normalize': 'deprecated', 'positive': False, 'random_state': None, 'solver': 'auto', 'tol': 1e-05}
+		Predicted: [[-0.06266277]
+ [-0.23290258]
+ [ 0.22329959]
+ [-0.14034451]
+ [ 0.4012172 ]
+ [ 0.08422452]
+ [-0.21352536]
+ [ 0.01551183]
+ [-0.42845882]
+ [ 0.72700991]]
+		Mean of predicted: -0.49448044237021466
+		True: [[ 0.22233333]
+ [ 0.73497973]
+ [-0.29031307]
+ [ 0.73497973]
+ [-0.29031307]
+ [-0.29031307]
+ [-1.05928267]
+ [-0.29031307]
+ [ 1.50394933]
+ [ 0.73497973]]
+		Mean of true: -0.008814254780432436
 		Hyperparameters: num_components: 500, max_samples: -1, startYear: 1990, endYear: 2020

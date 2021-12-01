@@ -5,8 +5,8 @@ import os, sys
 from bs4 import BeautifulSoup
 import requests
 
-startYear = 2011
-endYear = 2020
+startYear = 2021
+endYear = 2021
 
 ## Helper funcitons
 def isUpper(l):
@@ -152,16 +152,21 @@ def statsToCSVMultYears(years):
 		getStatsForYear(i, getPlayers=True)
 		getStatsForYear(i, getPitchers=True)
 
-def start():
+def scrape(year):
+	getStatsForYear(year, getPlayers=True)
+	getStatsForYear(year, getPitchers=True)
+
+def start(startYear, endYear):
 	yearsList = []
-	for i in range(len(year_ranges)):
+	for i in range(endYear-startYear):
 		#print(startYear + i)
 		yearsList.append(startYear + i)
+	if (startYear == endYear): yearsList = [ startYear ]
 	statsToCSVMultYears(yearsList)
 
 def setYearRange(sY, eY):
 	endYear = eY
 	startYear = sY
 
-if len(sys.argv) > 1:
-    start()
+if __name__ == '__main__':
+    start(startYear,endYear)

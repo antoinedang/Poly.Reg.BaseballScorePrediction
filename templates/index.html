@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <h1>Baseball Game Predictor (BETA)</h1>
+
+    <script>// Add functions here
+        function getData() {
+            let elem = document.getElementById("form")
+            let visitingTeam = document.getElementById("visitingTeam").value;
+            let homeTeam = document.getElementById("homeTeam").value;
+            let date = document.getElementById("dateGame").value;
+            const elemList = {home: homeTeam, visit: visitingTeam, dateG: date}
+
+
+            console.log("hi!")
+            fetch("http://127.0.0.1:5000/data", {
+                method: 'POST', 
+                body: elemList
+            })
+            .then(function (response){
+              return response.json()
+            })
+            .then(function (data){
+              elem.innerText = "Horray!"  
+            })
+        }
+        
+    </script>
+
+</head>
+
+<body>
+    Please enter the home and visiting teams players seperated by commas in the following order: <br>
+    Pitcher, First Baseman, Second Baseman, Third Baseman, Shortstop, Left Fielder, Center Fielder, Right Fielder<br>
+    
+</br>
+    <div id="form">
+    </div>
+        <label for="homeTeam">Home Team:</label> <br>
+        <input type="text" id="homeTeam" name="homeTeam"> <br><br>
+
+        <label for="visitingTeam">Visiting Team:</label> <br>
+        <input type="text" id="visitingTeam" name="visitingTeam"> <br><br>
+
+        <label for="dateGame">Enter Date:</label> <br>
+        <input type="date" id="dateGame" name="dateGame"> <br><br>
+
+        <!-- Hiding submit button for now
+        <input type="submit" value="Submit">
+        -->
+        <button onclick="getData();">Susmit</button> 
+        <input type="reset">
+</br>   
+    
+
+</body>
+</html>
