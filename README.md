@@ -16,7 +16,7 @@ a ridge regression model using sklearn, got the stats using BeautifulSoup, and t
 
 ## Running the app
 
-To run the web app, first install all packages in imports.txt
+To run the web app, first install all dependencies for the imports in imports.txt
 
 Then, if the .finalized_model.sav, .pca.sav, or .scaler.sav files are missing, run:
 
