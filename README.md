@@ -18,26 +18,21 @@ a ridge regression model using sklearn, got the stats using BeautifulSoup, and t
 
 To run the web app, first install all dependencies for the imports in imports.txt
 
-Then, if the .finalized_model.sav, .pca.sav, or .scaler.sav files are missing, run:
+Then, if the .finalized_model.sav, .pca.sav, or .scaler.sav files are missing, run the following to generate them:
 
 ```
 python3 BBModel.py
 ```
 
-Then,
+Once the .sav files have been generated, launch the webapp with:
 
 ```
 python3 app.py
 ```
 
-Lastly, open a browser and navigate to your http://localhost:5000.
+Now just open a browser and navigate to your http://localhost:5000.
 
-
-To run hyperparameter search simply do:
-```
-python3 BBModel.py [args]
-```
-Where [args] is one or more arbitrary command line arguments
+(P.S. Initial run time may take some time because the program has to download the mlb stats)
 
 ## Repository organization
 
